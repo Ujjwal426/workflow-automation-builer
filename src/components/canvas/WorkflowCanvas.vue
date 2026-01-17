@@ -1,5 +1,10 @@
 <script setup lang="ts">
-import { VueFlow, useVueFlow, applyEdgeChanges } from "@vue-flow/core";
+import {
+  VueFlow,
+  useVueFlow,
+  applyEdgeChanges,
+  applyNodeChanges,
+} from "@vue-flow/core";
 import type { EdgeUpdateEvent } from "@vue-flow/core";
 import { MiniMap } from "@vue-flow/minimap";
 import { Controls } from "@vue-flow/controls";
@@ -197,6 +202,11 @@ function onZoomIn() {
 function onZoomOut() {
   zoomOut({ duration: 200 });
 }
+
+function onNodesChange(changes: any[]) {
+  store.snapshot();
+  store.nodes = applyNodeChanges(changes, store.nodes);
+}
 </script>
 
 <template>
@@ -229,6 +239,7 @@ function onZoomOut() {
       :edge-updatable-type="'target'"
       @edges-change="onEdgesChange"
       @edge-update="onEdgeUpdate"
+      @nodes-change="onNodesChange"
     >
       <!-- MiniMap -->
       <MiniMap
