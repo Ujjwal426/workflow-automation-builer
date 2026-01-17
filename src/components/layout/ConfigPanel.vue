@@ -7,7 +7,9 @@
     </p>
 
     <div v-else>
-      <p class="text-sm mb-3"><b>Type:</b> {{ selectedNode.type }}</p>
+      <p class="text-sm mb-3">
+        <b>Type:</b> {{ selectedNode?.type?.split(".")[1] }}
+      </p>
 
       <component
         v-if="nodeDef?.configForm"
