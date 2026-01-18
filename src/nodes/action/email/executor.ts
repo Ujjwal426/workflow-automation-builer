@@ -1,7 +1,11 @@
+import cogoToast from "cogo-toast";
+
 export async function execute(config: any) {
   try {
     // Simulated delay
     await new Promise((r) => setTimeout(r, 500));
+
+    cogoToast.success("Email sent successfully");
 
     return {
       ok: true,

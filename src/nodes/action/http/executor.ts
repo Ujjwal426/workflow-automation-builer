@@ -1,3 +1,5 @@
+import cogoToast from "cogo-toast";
+
 export async function execute(config: any) {
   try {
     const headers: Record<string, string> = {
@@ -37,6 +39,8 @@ export async function execute(config: any) {
       data = await response.text();
     }
 
+    cogoToast.success(`${config.name} executed successfully`);
+
     return {
       ok: response.ok,
       status: response.status,
@@ -44,6 +48,7 @@ export async function execute(config: any) {
       etag: response.headers.get("etag"),
     };
   } catch (error: any) {
+    cogoToast.error(`${config.name} failed to execute`);
     return {
       ok: false,
       status: 0,

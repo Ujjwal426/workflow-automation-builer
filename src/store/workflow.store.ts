@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import { ref, watch } from "vue";
 import { nodeRegistry } from "../nodes";
+import cogoToast from "cogo-toast";
 
 const STORAGE_KEY = "workflow-builder-data";
 
@@ -209,7 +210,7 @@ export const useWorkflowStore = defineStore("workflow", () => {
     const errors = validate();
 
     if (errors.length) {
-      alert("Cannot save workflow:\n\n" + errors.join("\n"));
+      cogoToast.error("Cannot save workflow:\n\n" + errors.join("\n"));
       return;
     }
 
@@ -220,7 +221,7 @@ export const useWorkflowStore = defineStore("workflow", () => {
     };
 
     localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
-    alert("Workflow saved");
+    cogoToast.success("Workflow saved");
   }
 
   /* 📂 LOAD (explicit) */
