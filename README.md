@@ -139,9 +139,16 @@ These can be loaded to preview working examples.
 
 ## 🚀 Deployment
 
-The application is deployed using **Vercel**.
+## 🚀 Deployment
 
-Deployment Link: **(add your link here)**
+The application is deployed on **Vercel**.
+
+## 🚀 Deployment
+
+The application is deployed on **Vercel**.
+
+🔗 **Live Demo:** https://wworkflow-automation-builer.vercel.app/
+
 
 ---
 
@@ -153,7 +160,7 @@ A Loom recording demonstrates:
 - Configuring forms
 - Running, pausing, stepping through workflow
 
-Loom Link: **(add your link here)**
+Loom Link: ** https://www.loom.com/share/dbd567174c604b6f9dc102679f0f0217
 
 ---
 
