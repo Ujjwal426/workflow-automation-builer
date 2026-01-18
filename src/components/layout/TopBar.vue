@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import cogoToast from "cogo-toast";
 import { useWorkflowStore } from "../../store/workflow.store";
 
 const store = useWorkflowStore();
@@ -12,6 +13,13 @@ function onPauseResume() {
 }
 
 function onStep() {
+  const errors = store.validate();
+
+  if (errors.length) {
+    cogoToast.error("Cannot save workflow:\n\n" + errors.join("\n"));
+    return;
+  }
+
   if (!store.isRunning) {
     store.startStepMode();
   }

@@ -113,6 +113,23 @@ function validateConditions(nodes: any[], edges: any[]): string[] {
   return errors;
 }
 
+function validateNodeConnections(nodes: any[], edges: any[]): string[] {
+  const errors: string[] = [];
+
+  for (const node of nodes) {
+    const incoming = edges.filter((e) => e.target === node.id);
+    const outgoing = edges.filter((e) => e.source === node.id);
+
+    if (incoming.length === 0 && outgoing.length === 0) {
+      errors.push(
+        `Node "${node.data?.label || node.id}" is not connected to any edge.`,
+      );
+    }
+  }
+
+  return errors;
+}
+
 /* simple debounce (no dependency) */
 function debounce<T extends (...args: any[]) => void>(fn: T, delay = 500) {
   let timer: number | undefined;
@@ -296,6 +313,13 @@ export const useWorkflowStore = defineStore("workflow", () => {
   }
 
   async function step() {
+    const errors = validate();
+
+    if (errors.length) {
+      cogoToast.error("Cannot save workflow:\n\n" + errors.join("\n"));
+      return;
+    }
+
     if (!stepQueue.length || !isRunning.value) return;
 
     isPaused.value = false;
@@ -361,7 +385,7 @@ export const useWorkflowStore = defineStore("workflow", () => {
     if (hasCycle(nodes.value, edges.value)) {
       errors.push("Workflow contains a cycle");
     }
-
+    errors.push(...validateNodeConnections(nodes.value, edges.value));
     errors.push(...validatePorts(nodes.value, edges.value));
     errors.push(...validateConditions(nodes.value, edges.value));
 
@@ -369,6 +393,13 @@ export const useWorkflowStore = defineStore("workflow", () => {
   }
 
   async function runWorkflow() {
+    const errors = validate();
+
+    if (errors.length) {
+      cogoToast.error("Cannot save workflow:\n\n" + errors.join("\n"));
+      return;
+    }
+
     resetExecution();
     isRunning.value = true;
 
