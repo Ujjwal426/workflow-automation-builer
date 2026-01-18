@@ -60,7 +60,7 @@ function validatePorts(nodes: any[], edges: any[]): string[] {
     const incoming = edges.filter((e) => e.target === node.id);
     const outgoing = edges.filter((e) => e.source === node.id);
 
-    if (node.type?.split(".")?.[0] === "trigger") {
+    if (node.type?.startsWith("Trigger")) {
       if (incoming.length > 0) {
         errors.push("Trigger node cannot have incoming edges.");
       }
@@ -69,7 +69,7 @@ function validatePorts(nodes: any[], edges: any[]): string[] {
       }
     }
 
-    if (node?.type?.split(".")?.[0] === "Logic") {
+    if (node?.type?.startsWith("Logic")) {
       if (incoming.length !== 1) {
         errors.push("Condition node must have exactly one incoming edge.");
       }
@@ -94,7 +94,7 @@ function validatePorts(nodes: any[], edges: any[]): string[] {
 function validateConditions(nodes: any[], edges: any[]): string[] {
   const errors: string[] = [];
 
-  const conditions = nodes.filter((n) => n.type?.split(".")?.[0] === "Logic");
+  const conditions = nodes.filter((n) => n.type?.startsWith("Logic"));
 
   for (const node of conditions) {
     const outgoing = edges.filter((e) => e.source === node.id);
@@ -327,7 +327,7 @@ export const useWorkflowStore = defineStore("workflow", () => {
       const outgoing = edges.value.filter((e) => e.source === nodeId);
 
       /* CONDITION BRANCHING */
-      if (node.type.split(".")[0] === "Logic") {
+      if (node.type.startsWith("Logic")) {
         const branch = result === true ? "true" : "false";
 
         outgoing.forEach((e) => {
@@ -423,7 +423,7 @@ export const useWorkflowStore = defineStore("workflow", () => {
       const outgoing = edges.value.filter((e) => e.source === node.id);
 
       // CONDITION NODE
-      if (node.type.split(".")[0] === "Logic") {
+      if (node.type.startsWith("Logic")) {
         const branch = result === true ? "true" : "false";
 
         outgoing.forEach((e) => {

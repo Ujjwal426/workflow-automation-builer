@@ -104,7 +104,7 @@ function onConnect(params: any) {
   let label = "";
   let style = undefined;
 
-  if (sourceNode?.type?.split(".")?.[0] === "Logic") {
+  if (sourceNode?.type?.startsWith("Logic")) {
     label = sourceHandle === "true" ? "true" : "false";
     style = getConditionEdgeStyle(label);
   }
