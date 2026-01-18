@@ -1,44 +1,3 @@
-<template>
-  <div class="space-y-4">
-    <!-- Action Name field -->
-    <div>
-      <label class="block text-sm font-medium mb-1"> Action Name </label>
-
-      <!-- Node display name input -->
-      <input
-        class="border p-2 w-full rounded focus:outline-none focus:ring-2 focus:ring-indigo-500"
-        placeholder="Wait before next step"
-        v-model="localValue.name"
-        @input="emitChange"
-      />
-
-      <!-- Validation error for name -->
-      <p v-if="errors?.name" class="text-xs text-red-500 mt-1">
-        {{ errors.name }}
-      </p>
-    </div>
-
-    <!-- Delay duration field -->
-    <div>
-      <label class="block text-sm font-medium mb-1"> Delay (seconds) </label>
-
-      <!-- Duration input (minimum 1 second) -->
-      <input
-        type="number"
-        min="1"
-        class="border p-2 w-full rounded focus:outline-none focus:ring-2 focus:ring-indigo-500"
-        v-model.number="localValue.duration"
-        @input="emitChange"
-      />
-
-      <!-- Validation error for duration -->
-      <p v-if="errors?.duration" class="text-xs text-red-500 mt-1">
-        {{ errors.duration }}
-      </p>
-    </div>
-  </div>
-</template>
-
 <script setup lang="ts">
 /**
  * Vue utilities
@@ -96,3 +55,44 @@ function emitChange() {
   emit("update:modelValue", { ...localValue });
 }
 </script>
+
+<template>
+  <div class="space-y-4">
+    <!-- Action Name field -->
+    <div>
+      <label class="block text-sm font-medium mb-1"> Action Name </label>
+
+      <!-- Node display name input -->
+      <input
+        class="border p-2 w-full rounded focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        placeholder="Wait before next step"
+        v-model="localValue.name"
+        @input="emitChange"
+      />
+
+      <!-- Validation error for name -->
+      <p v-if="errors?.name" class="text-xs text-red-500 mt-1">
+        {{ errors.name }}
+      </p>
+    </div>
+
+    <!-- Delay duration field -->
+    <div>
+      <label class="block text-sm font-medium mb-1"> Delay (seconds) </label>
+
+      <!-- Duration input (minimum 1 second) -->
+      <input
+        type="number"
+        min="1"
+        class="border p-2 w-full rounded focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        v-model.number="localValue.duration"
+        @input="emitChange"
+      />
+
+      <!-- Validation error for duration -->
+      <p v-if="errors?.duration" class="text-xs text-red-500 mt-1">
+        {{ errors.duration }}
+      </p>
+    </div>
+  </div>
+</template>

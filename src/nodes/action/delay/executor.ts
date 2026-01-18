@@ -1,4 +1,3 @@
-// nodes/action/delay/executor.ts
 export async function execute(config: any) {
   const durationMs = config.duration * 1000;
 

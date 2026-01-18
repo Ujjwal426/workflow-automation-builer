@@ -1,3 +1,40 @@
+<script setup lang="ts">
+import { reactive, watch } from "vue";
+
+const props = defineProps<{
+  modelValue: {
+    name?: string;
+    description?: string;
+  };
+  errors?: Record<string, string>;
+}>();
+
+const emit = defineEmits<{
+  (e: "update:modelValue", value: any): void;
+}>();
+
+/* local copy (safe for empty config) */
+const localValue = reactive({
+  name: props.modelValue?.name ?? "",
+  description: props.modelValue?.description ?? "",
+});
+
+/* sync external → local */
+watch(
+  () => props.modelValue,
+  (val) => {
+    localValue.name = val?.name ?? "";
+    localValue.description = val?.description ?? "";
+  },
+  { deep: true },
+);
+
+/* emit only value changes */
+function emitChange() {
+  emit("update:modelValue", { ...localValue });
+}
+</script>
+
 <template>
   <div class="space-y-4">
     <!-- Trigger Name -->
@@ -31,40 +68,3 @@
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-import { reactive, watch } from "vue";
-
-const props = defineProps<{
-  modelValue: {
-    name?: string;
-    description?: string;
-  };
-  errors?: Record<string, string>;
-}>();
-
-const emit = defineEmits<{
-  (e: "update:modelValue", value: any): void;
-}>();
-
-/* local copy (safe for empty config) */
-const localValue = reactive({
-  name: props.modelValue?.name ?? "",
-  description: props.modelValue?.description ?? "",
-});
-
-/* sync external → local */
-watch(
-  () => props.modelValue,
-  (val) => {
-    localValue.name = val?.name ?? "";
-    localValue.description = val?.description ?? "";
-  },
-  { deep: true }
-);
-
-/* emit only value changes */
-function emitChange() {
-  emit("update:modelValue", { ...localValue });
-}
-</script>

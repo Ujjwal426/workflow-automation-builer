@@ -1,4 +1,3 @@
-// nodes/action/email/executor.ts
 export async function execute(config: any) {
   try {
     // Simulated delay

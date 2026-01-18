@@ -1,40 +1,3 @@
-<template>
-  <div class="w-80 border-l p-4 bg-white h-full">
-    <h3 class="font-semibold mb-4">Configuration</h3>
-
-    <p v-if="!selectedNode" class="text-gray-400 text-sm">
-      Select a node to configure
-    </p>
-
-    <div v-else>
-      <p class="text-sm mb-3">
-        <b>Type:</b> {{ selectedNode?.type?.split(".")[1] }}
-      </p>
-
-      <component
-        v-if="nodeDef?.configForm"
-        :is="nodeDef.configForm"
-        v-model="selectedNode.data.config"
-        :errors="fieldErrors"
-      />
-
-      <button
-        class="mt-4 w-full p-2 rounded text-white bg-blue-600"
-        @click="save"
-      >
-        Save
-      </button>
-
-      <p
-        v-if="successMessage"
-        class="mt-3 rounded-lg bg-green-50 border border-green-200 px-3 py-2 text-sm text-green-700 text-center font-medium shadow-sm"
-      >
-        {{ successMessage }}
-      </p>
-    </div>
-  </div>
-</template>
-
 <script setup lang="ts">
 import { computed, ref, watch } from "vue";
 import { storeToRefs } from "pinia";
@@ -96,3 +59,40 @@ function save() {
   }, 2000);
 }
 </script>
+
+<template>
+  <div class="w-80 border-l p-4 bg-white h-full">
+    <h3 class="font-semibold mb-4">Configuration</h3>
+
+    <p v-if="!selectedNode" class="text-gray-400 text-sm">
+      Select a node to configure
+    </p>
+
+    <div v-else>
+      <p class="text-sm mb-3">
+        <b>Type:</b> {{ selectedNode?.type?.split(".")[1] }}
+      </p>
+
+      <component
+        v-if="nodeDef?.configForm"
+        :is="nodeDef.configForm"
+        v-model="selectedNode.data.config"
+        :errors="fieldErrors"
+      />
+
+      <button
+        class="mt-4 w-full p-2 rounded text-white bg-blue-600"
+        @click="save"
+      >
+        Save
+      </button>
+
+      <p
+        v-if="successMessage"
+        class="mt-3 rounded-lg bg-green-50 border border-green-200 px-3 py-2 text-sm text-green-700 text-center font-medium shadow-sm"
+      >
+        {{ successMessage }}
+      </p>
+    </div>
+  </div>
+</template>

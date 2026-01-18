@@ -1,3 +1,23 @@
+<script setup lang="ts">
+import { Handle, Position } from "@vue-flow/core";
+import { computed } from "vue";
+import { useWorkflowStore } from "../../../store/workflow.store";
+
+const P = Position;
+
+const props = defineProps<{
+  id: string;
+  data: {
+    label: string;
+  };
+}>();
+
+const store = useWorkflowStore();
+
+const isActive = computed(() => store.runningNodeId === props.id);
+const status = computed(() => store.nodeStatus[props.id] || "idle");
+</script>
+
 <template>
   <div
     class="relative min-w-[170px] rounded-xl border px-4 py-3 bg-white transition-all duration-150 shadow-sm border-gray-200 hover:shadow-md hover:border-cyan-300"
@@ -37,23 +57,3 @@
     />
   </div>
 </template>
-
-<script setup lang="ts">
-import { Handle, Position } from "@vue-flow/core";
-import { computed } from "vue";
-import { useWorkflowStore } from "../../../store/workflow.store";
-
-const P = Position;
-
-const props = defineProps<{
-  id: string;
-  data: {
-    label: string;
-  };
-}>();
-
-const store = useWorkflowStore();
-
-const isActive = computed(() => store.runningNodeId === props.id);
-const status = computed(() => store.nodeStatus[props.id] || "idle");
-</script>

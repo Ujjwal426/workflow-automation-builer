@@ -1,3 +1,37 @@
+<script setup lang="ts">
+import { reactive, watch } from "vue";
+import { conditionSchema } from "./schema";
+
+const props = defineProps<{
+  modelValue: {
+    field: "status" | "ok";
+    operator: "eq" | "neq";
+    value: number;
+  };
+  errors?: Record<string, string>;
+}>();
+
+const emit = defineEmits(["update:modelValue"]);
+
+const localValue = reactive({
+  field: props.modelValue.field ?? "status",
+  operator: props.modelValue.operator ?? "eq",
+  value: props.modelValue.value ?? 200,
+});
+
+watch(
+  () => props.modelValue,
+  (v) => Object.assign(localValue, v),
+  { deep: true },
+);
+
+function emitChange() {
+  // optional inline validation
+  conditionSchema.safeParse(localValue);
+  emit("update:modelValue", { ...localValue });
+}
+</script>
+
 <template>
   <div class="space-y-4">
     <!-- Field -->
@@ -50,36 +84,3 @@
     </div>
   </div>
 </template>
-<script setup lang="ts">
-import { reactive, watch } from "vue";
-import { conditionSchema } from "./schema";
-
-const props = defineProps<{
-  modelValue: {
-    field: "status" | "ok";
-    operator: "eq" | "neq";
-    value: number;
-  };
-  errors?: Record<string, string>;
-}>();
-
-const emit = defineEmits(["update:modelValue"]);
-
-const localValue = reactive({
-  field: props.modelValue.field ?? "status",
-  operator: props.modelValue.operator ?? "eq",
-  value: props.modelValue.value ?? 200,
-});
-
-watch(
-  () => props.modelValue,
-  (v) => Object.assign(localValue, v),
-  { deep: true },
-);
-
-function emitChange() {
-  // optional inline validation
-  conditionSchema.safeParse(localValue);
-  emit("update:modelValue", { ...localValue });
-}
-</script>

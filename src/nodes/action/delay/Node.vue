@@ -1,4 +1,3 @@
-<!-- nodes/action/delay/Node.vue -->
 <script setup lang="ts">
 import { Handle } from "@vue-flow/core";
 import { Position } from "@vue-flow/core";

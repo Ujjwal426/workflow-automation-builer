@@ -1,4 +1,3 @@
-<!-- nodes/action/email/ConfigForm.vue -->
 <template>
   <div class="space-y-4">
     <!-- Action Name -->

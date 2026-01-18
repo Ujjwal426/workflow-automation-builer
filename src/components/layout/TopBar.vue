@@ -1,3 +1,28 @@
+<script setup lang="ts">
+import { useWorkflowStore } from "../../store/workflow.store";
+
+const store = useWorkflowStore();
+
+function onRun() {
+  store.runWorkflow();
+}
+
+function onPauseResume() {
+  store.isPaused = !store.isPaused;
+}
+
+function onStep() {
+  if (!store.isRunning) {
+    store.startStepMode();
+  }
+  store.step();
+}
+
+function onReset() {
+  store.resetExecution();
+}
+</script>
+
 <template>
   <div class="h-14 px-4 flex items-center gap-4 border-b bg-white">
     <div class="font-semibold text-gray-800 tracking-tight">
@@ -79,28 +104,3 @@
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-import { useWorkflowStore } from "../../store/workflow.store";
-
-const store = useWorkflowStore();
-
-function onRun() {
-  store.runWorkflow();
-}
-
-function onPauseResume() {
-  store.isPaused = !store.isPaused;
-}
-
-function onStep() {
-  if (!store.isRunning) {
-    store.startStepMode();
-  }
-  store.step();
-}
-
-function onReset() {
-  store.resetExecution();
-}
-</script>

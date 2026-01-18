@@ -1,4 +1,3 @@
-// nodes/action/delay/schema.ts
 import { z } from "zod";
 
 export const delaySchema = z.object({

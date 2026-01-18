@@ -1,37 +1,3 @@
-<template>
-  <div class="space-y-4">
-    <!-- Trigger Name -->
-    <div>
-      <label class="block text-sm font-medium mb-1"> Trigger Name </label>
-
-      <input
-        class="border p-2 w-full rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-        placeholder="Start Workflow"
-        v-model="localValue.name"
-        @input="emitChange"
-      />
-
-      <!-- Field error from ConfigPanel -->
-      <p v-if="errors?.name" class="text-xs text-red-500 mt-1">
-        {{ errors.name }}
-      </p>
-    </div>
-
-    <!-- Description -->
-    <div>
-      <label class="block text-sm font-medium mb-1"> Description </label>
-
-      <textarea
-        class="border p-2 w-full rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-        placeholder="Optional description"
-        rows="3"
-        v-model="localValue.description"
-        @input="emitChange"
-      />
-    </div>
-  </div>
-</template>
-
 <script setup lang="ts">
 import { reactive, watch } from "vue";
 
@@ -68,3 +34,37 @@ function emitChange() {
   emit("update:modelValue", { ...localValue });
 }
 </script>
+
+<template>
+  <div class="space-y-4">
+    <!-- Trigger Name -->
+    <div>
+      <label class="block text-sm font-medium mb-1"> Trigger Name </label>
+
+      <input
+        class="border p-2 w-full rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+        placeholder="Start Workflow"
+        v-model="localValue.name"
+        @input="emitChange"
+      />
+
+      <!-- Field error from ConfigPanel -->
+      <p v-if="errors?.name" class="text-xs text-red-500 mt-1">
+        {{ errors.name }}
+      </p>
+    </div>
+
+    <!-- Description -->
+    <div>
+      <label class="block text-sm font-medium mb-1"> Description </label>
+
+      <textarea
+        class="border p-2 w-full rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+        placeholder="Optional description"
+        rows="3"
+        v-model="localValue.description"
+        @input="emitChange"
+      />
+    </div>
+  </div>
+</template>

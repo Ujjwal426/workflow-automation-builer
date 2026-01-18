@@ -1,4 +1,3 @@
-// nodes/action/email/schema.ts
 import { z } from "zod";
 
 export const emailSchema = z.object({

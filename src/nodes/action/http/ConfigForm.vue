@@ -1,3 +1,55 @@
+<script setup lang="ts">
+import { reactive, watch } from "vue";
+
+/**
+ * Props
+ */
+const props = defineProps<{
+  modelValue: {
+    name: string;
+    url: string;
+    method: string;
+    body?: string;
+  };
+  errors?: Record<string, string>;
+}>();
+
+/**
+ * Emits
+ */
+const emit = defineEmits<{
+  (e: "update:modelValue", value: any): void;
+}>();
+
+/**
+ * Local copy
+ */
+const localValue = reactive({
+  name: props.modelValue.name || "",
+  url: props.modelValue.url || "",
+  method: props.modelValue.method || "GET",
+  body: props.modelValue.body || "",
+});
+
+watch(
+  () => props.modelValue,
+  (val) => {
+    localValue.name = val.name || "";
+    localValue.url = val.url || "";
+    localValue.method = val.method || "GET";
+    localValue.body = val.body || "";
+  },
+  { deep: true },
+);
+
+/**
+ * Emit + validate
+ */
+function emitChange() {
+  emit("update:modelValue", { ...localValue });
+}
+</script>
+
 <template>
   <div class="space-y-4">
     <!-- Request Name -->
@@ -61,55 +113,3 @@
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-import { reactive, watch } from "vue";
-
-/**
- * Props
- */
-const props = defineProps<{
-  modelValue: {
-    name: string;
-    url: string;
-    method: string;
-    body?: string;
-  };
-  errors?: Record<string, string>;
-}>();
-
-/**
- * Emits
- */
-const emit = defineEmits<{
-  (e: "update:modelValue", value: any): void;
-}>();
-
-/**
- * Local copy
- */
-const localValue = reactive({
-  name: props.modelValue.name || "",
-  url: props.modelValue.url || "",
-  method: props.modelValue.method || "GET",
-  body: props.modelValue.body || "",
-});
-
-watch(
-  () => props.modelValue,
-  (val) => {
-    localValue.name = val.name || "";
-    localValue.url = val.url || "";
-    localValue.method = val.method || "GET";
-    localValue.body = val.body || "";
-  },
-  { deep: true },
-);
-
-/**
- * Emit + validate
- */
-function emitChange() {
-  emit("update:modelValue", { ...localValue });
-}
-</script>
