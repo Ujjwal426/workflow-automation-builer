@@ -1,0 +1,79 @@
+{
+  "viewport": { "x": 0, "y": 0, "zoom": 1 },
+  "nodes": [
+    {
+      "id": "cart-webhook",
+      "type": "TriggerWebhook",
+      "position": { "x": 100, "y": 200 },
+      "data": { "label": "Cart Event", "config": {} }
+    },
+    {
+      "id": "stock-check",
+      "type": "LogicCondition",
+      "position": { "x": 300, "y": 200 },
+      "data": {
+        "label": "Item In Stock?",
+        "config": { "expression": "cart.inStock === true" }
+      }
+    },
+    {
+      "id": "email-reminder",
+      "type": "ActionEmail",
+      "position": { "x": 500, "y": 120 },
+      "data": {
+        "label": "Reminder Email",
+        "config": { "subject": "You left items in your cart" }
+      }
+    },
+    {
+      "id": "delay-2h",
+      "type": "ActionDelay",
+      "position": { "x": 700, "y": 120 },
+      "data": { "label": "Wait 2 Hours", "config": { "duration": 7200 } }
+    },
+    {
+      "id": "purchase-check",
+      "type": "LogicCondition",
+      "position": { "x": 900, "y": 120 },
+      "data": {
+        "label": "Purchased?",
+        "config": { "expression": "cart.purchased === true" }
+      }
+    },
+    {
+      "id": "thank-you",
+      "type": "ActionEmail",
+      "position": { "x": 1100, "y": 60 },
+      "data": { "label": "Thank You Email", "config": {} }
+    },
+    {
+      "id": "sms-discount",
+      "type": "ActionSMS",
+      "position": { "x": 1100, "y": 180 },
+      "data": { "label": "Discount SMS", "config": {} }
+    }
+  ],
+  "edges": [
+    { "id": "e1", "source": "cart-webhook", "target": "stock-check" },
+    {
+      "id": "e2",
+      "source": "stock-check",
+      "sourceHandle": "true",
+      "target": "email-reminder"
+    },
+    { "id": "e3", "source": "email-reminder", "target": "delay-2h" },
+    { "id": "e4", "source": "delay-2h", "target": "purchase-check" },
+    {
+      "id": "e5",
+      "source": "purchase-check",
+      "sourceHandle": "true",
+      "target": "thank-you"
+    },
+    {
+      "id": "e6",
+      "source": "purchase-check",
+      "sourceHandle": "false",
+      "target": "sms-discount"
+    }
+  ]
+}

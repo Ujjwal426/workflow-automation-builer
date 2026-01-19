@@ -1,0 +1,74 @@
+{
+  "viewport": { "x": 0, "y": 0, "zoom": 1 },
+  "nodes": [
+    {
+      "id": "trigger-webhook",
+      "type": "TriggerWebhook",
+      "position": { "x": 100, "y": 200 },
+      "data": { "label": "New Lead Webhook", "config": {} }
+    },
+    {
+      "id": "send-email",
+      "type": "ActionEmail",
+      "position": { "x": 300, "y": 200 },
+      "data": {
+        "label": "Send Welcome Email",
+        "config": { "to": "{{lead.email}}", "subject": "Welcome!" }
+      }
+    },
+    {
+      "id": "delay-1h",
+      "type": "ActionDelay",
+      "position": { "x": 500, "y": 200 },
+      "data": { "label": "Wait 1 Hour", "config": { "duration": 3600 } }
+    },
+    {
+      "id": "http-crm",
+      "type": "ActionHttp",
+      "position": { "x": 700, "y": 200 },
+      "data": {
+        "label": "Add Lead to CRM",
+        "config": { "url": "/crm/leads", "method": "POST" }
+      }
+    },
+    {
+      "id": "condition-status",
+      "type": "LogicCondition",
+      "position": { "x": 900, "y": 200 },
+      "data": {
+        "label": "CRM Response OK?",
+        "config": { "expression": "response.status === 200" }
+      }
+    },
+    {
+      "id": "sms-success",
+      "type": "ActionSMS",
+      "position": { "x": 1100, "y": 120 },
+      "data": { "label": "Success SMS", "config": { "message": "Lead added!" } }
+    },
+    {
+      "id": "sms-error",
+      "type": "ActionSMS",
+      "position": { "x": 1100, "y": 280 },
+      "data": { "label": "Error SMS", "config": { "message": "CRM failed!" } }
+    }
+  ],
+  "edges": [
+    { "id": "e1", "source": "trigger-webhook", "target": "send-email" },
+    { "id": "e2", "source": "send-email", "target": "delay-1h" },
+    { "id": "e3", "source": "delay-1h", "target": "http-crm" },
+    { "id": "e4", "source": "http-crm", "target": "condition-status" },
+    {
+      "id": "e5",
+      "source": "condition-status",
+      "sourceHandle": "true",
+      "target": "sms-success"
+    },
+    {
+      "id": "e6",
+      "source": "condition-status",
+      "sourceHandle": "false",
+      "target": "sms-error"
+    }
+  ]
+}
